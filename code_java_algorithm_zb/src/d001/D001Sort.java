@@ -25,9 +25,9 @@ public class D001Sort {
     }
 
     public static void swap2(int[] arr, int i, int j) {
-        arr[i] = arr[i] ^ arr[j];
-        arr[j] = arr[i] ^ arr[j];
-        arr[i] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];  // a=a^b
+        arr[j] = arr[i] ^ arr[j];  // b=a^b     b=a^b^b      b=a
+        arr[i] = arr[i] ^ arr[j];  // a=a^b     a=a^b^a      a=b
     }
 
     // 拷贝数组
@@ -164,11 +164,7 @@ public class D001Sort {
     }
 
     // 快速排序(交换)
-
-
     // 归并排序
-
-
     // 堆排序
 
     public static void main(String[] args) {

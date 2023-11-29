@@ -1,5 +1,7 @@
 package d001;
 
+import java.util.Arrays;
+
 public class D001Sort {
     /*
      * 插入排序、希尔排序
@@ -7,7 +9,7 @@ public class D001Sort {
      *
      * */
 
-    // 打印数组
+    // 打印数组——
     public static void printArray(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             System.out.print(i != arr.length - 1 ? arr[i] + ", " : arr[i]);
@@ -19,7 +21,13 @@ public class D001Sort {
     public static void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
         arr[i] = arr[j];
-        arr[i] = tmp;
+        arr[j] = tmp;
+    }
+
+    public static void swap2(int[] arr, int i, int j) {
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
     }
 
     // 拷贝数组
@@ -42,7 +50,7 @@ public class D001Sort {
         return ans;
     }
 
-    // 判断是否升序
+    // 结果验：判断是否升序
     public static boolean isSorted(int[] arr) {
         if (arr.length < 2) {
             return true;  // 不到两个数 默认升序
@@ -58,6 +66,30 @@ public class D001Sort {
         return true;
     }
 
+    // 算法B验：系统提供的
+    public static void comparator(int[] arr) {
+        Arrays.sort(arr);
+    }
+
+    // 算法B验：判断两个结果是否相同
+    public static boolean isEqual(int[] arr1, int[] arr2) {
+        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
+            return false;
+        }
+        if (arr1 == null && arr2 == null) {
+            return true;
+        }
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] != arr2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // 冒泡排序(两两比较后交换)：一整轮没有交换则提前结束
     public static void bubbleSort(int[] arr) {
         // 边界条件：空、非空但数目少于2
@@ -69,7 +101,7 @@ public class D001Sort {
         for (int end = n - 1; end > 0; end--) {  // 内循环每次减少一次，因为最大的数已经冒泡到最后
             for (int second = 1; second <= end; second++) {
                 if (arr[second - 1] > arr[second]) {  // 比较相邻的两个元素，如果顺序错误就交换它们
-                    swap(arr, second, second-1);
+                    swap(arr, second, second - 1);
                 }
             }
         }
@@ -105,6 +137,12 @@ public class D001Sort {
             for (int pre = end - 1; pre >= 0 && arr[pre] > arr[pre + 1]; pre--) {
                 swap(arr, pre, pre + 1);
             }
+            /*for (int pre = end - 1; pre >= 0; pre--) {
+                if (arr[pre] > arr[pre + 1]) {
+                    swap(arr, pre, pre + 1);
+                    end = pre;
+                }
+            }*/
         }
     }
 
@@ -135,33 +173,40 @@ public class D001Sort {
 
     public static void main(String[] args) {
         // 指定数组的长度范围、值范围
+        System.out.println("-----------测试开始-----------");
         int maxLen = 30;
         int maxValue = 1000;
         int testTimes = 100000;  // 大样本随机验证
 
-        /*// 单例
-        int[] arr1 = lenRandomValueRandom(maxLen,maxValue);
-        int[] tmp =copyArray(arr1);  // 在排序前先备份
-        printArray(arr1);
-        bubbleSort(arr1);
-        if (!isSorted(arr1)){
-            System.out.println("-----------排序出现错误-----------");
-            printArray(tmp);  // 打印错误的具体例子
-        }*/
-
-        for (int i = 0; i < testTimes; i++) {
+        /*for (int i = 0; i < testTimes; i++) {
             int[] arr1 = lenRandomValueRandom(maxLen, maxValue);
             int[] tmp = copyArray(arr1);  // 在排序前先备份
-
-            bubbleSort(arr1);
-
+            insertionSort(arr1);  // 核心
             if (!isSorted(arr1)) {
                 System.out.println("-----------排序出现错误-----------");
                 printArray(tmp);  // 打印错误的具体例子
                 break;  // 只要有一个错误就终止
             }
-        }
+        }*/
 
-        System.out.println("程序执行完毕");
+        boolean succeed = true;
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr1 = lenRandomValueRandom(maxLen, maxValue);
+            int[] tmp = copyArray(arr1);  // 在排序前先备份
+            insertionSort(arr1);  // 核心
+            comparator(tmp);  // 暴力
+
+            if (!isEqual(arr1, tmp)) {
+                System.out.println("-----------排序出现错误-----------");
+                succeed = false;
+                printArray(arr1);
+                printArray(tmp);
+                break;  // 只要有一个错误就终止
+            }
+        }
+        System.out.println(succeed ? "nice!" : "fucking fucked");
+
+        System.out.println("-----------程序执行完毕-----------");
+
     }
 }

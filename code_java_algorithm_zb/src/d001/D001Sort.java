@@ -90,7 +90,7 @@ public class D001Sort {
         return true;
     }
 
-    // 冒泡排序(两两比较后交换)：一整轮没有交换则提前结束
+    // 冒泡排序(两两比较后交换)
     public static void bubbleSort(int[] arr) {
         // 边界条件：空、非空但数目少于2
         if (arr == null || arr.length < 2) {
@@ -98,12 +98,36 @@ public class D001Sort {
         }
 
         int n = arr.length;
-        for (int end = n - 1; end > 0; end--) {  // 内循环每次减少一次，因为最大的数已经冒泡到最后
+        // 外循环：未排序区间为 [0, i]
+        for (int end = n - 1; end > 0; end--) {
+            // 内循环：将未排序区间 [0, i] 中的最大元素交换至该区间的最右端
             for (int second = 1; second <= end; second++) {
                 if (arr[second - 1] > arr[second]) {  // 比较相邻的两个元素，如果顺序错误就交换它们
                     swap(arr, second, second - 1);
                 }
             }
+        }
+    }
+
+    // 冒泡排序(两两比较后交换)：一整轮没有交换则提前结束 —— 效率优化
+    public static void bubbleSort2(int[] arr) {
+        // 边界条件：空、非空但数目少于2
+        if (arr == null || arr.length < 2) {
+            return;  // 不需要排序
+        }
+
+        int n = arr.length;
+        boolean flag = false;  // 标志位 检测某轮排序没有交换行为即退出
+        // 外循环：未排序区间为 [0, i]
+        for (int end = n - 1; end > 0; end--) {
+            // 内循环：将未排序区间 [0, i] 中的最大元素交换至该区间的最右端
+            for (int second = 1; second <= end; second++) {
+                if (arr[second - 1] > arr[second]) {  // 比较相邻的两个元素，如果顺序错误就交换它们
+                    swap(arr, second, second - 1);
+                }
+            }
+            if (!flag)
+                break;  // 标志位 检测某轮排序没有交换行为即退出
         }
     }
 
@@ -115,10 +139,11 @@ public class D001Sort {
         }
 
         int n = arr.length;
-        // 一次循环找到一个最小元素的正确位置
+        // 外循环：未排序区间为 [i, n-1]
         for (int i = 0; i < n; i++) {
             int minValueIndex = i;  // 找到最小值对应的索引 不妨设
-            for (int j = i + 1; j < n; j++) {  // 扫描：最小值索引是否更新
+            // 内循环：找到未排序区间内的最小元素
+            for (int j = i + 1; j < n; j++) {
                 minValueIndex = arr[j] < arr[minValueIndex] ? j : minValueIndex;
             }
             swap(arr, i, minValueIndex);
@@ -133,7 +158,9 @@ public class D001Sort {
         }
 
         int n = arr.length;
+        // 外循环：已排序元素数量为 1, 2, ..., n
         for (int end = 1; end < n; end++) {  // end当前关注的数  pre当前关注的数的左一个
+            // 内循环：将 base 插入到已排序部分的正确位置
             for (int pre = end - 1; pre >= 0 && arr[pre] > arr[pre + 1]; pre--) {
                 swap(arr, pre, pre + 1);
             }
@@ -143,6 +170,26 @@ public class D001Sort {
                     end = pre;
                 }
             }*/
+        }
+    }
+
+    // 直接插入排序
+    public static void insertionSort2(int[] arr) {
+        // 边界条件：空、非空但数目少于2
+        if (arr == null || arr.length < 2) {
+            return;  // 不需要排序
+        }
+
+        int n = arr.length;
+        // 外循环：已排序元素数量为 1, 2, ..., n
+        for (int end = 1; end < n; end++) {  // end当前关注的数  pre当前关注的数的左一个
+            int base = arr[end], pre = end - 1;
+            // 内循环：将 base 插入到已排序部分的正确位置
+            while (pre >= 0 && arr[pre] > base) {
+                arr[pre + 1] = arr[pre];  // 将arr[pre]向右移动一位
+                pre--;
+            }
+            arr[pre + 1] = base;  // 将base赋值到正确位置
         }
     }
 

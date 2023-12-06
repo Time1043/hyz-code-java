@@ -16,9 +16,9 @@ public class MergeSort2SmallSum {
         // 终止条件
         if (left >= right)
             return 0;
-        // left<right
+        // left < right
         int mid = left + ((right - left) >> 1);
-        return process(arr, 1, mid) + process(arr, mid + 1, right) + merge(arr, 1, mid, right);
+        return process(arr, left, mid) + process(arr, mid + 1, right) + merge(arr, left, mid, right);
     }
 
     private static int merge(int[] arr, int left, int mid, int right) {
@@ -35,7 +35,7 @@ public class MergeSort2SmallSum {
             tmp[k++] = arr[j++];
 
         for (int l = 0; l < tmp.length; l++) {
-            arr[right + l] = tmp[l];
+            arr[left + l] = tmp[l];
         }
         return res;
     }
@@ -44,7 +44,7 @@ public class MergeSort2SmallSum {
         System.out.println("-------------测试开始-------------");
         int maxLen = 300;
         int maxValue = 100;
-        int testTime = 10;
+        int testTime = 100000;
         boolean succeed = true;
 
         for (int i = 0; i < testTime; i++) {

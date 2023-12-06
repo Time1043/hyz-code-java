@@ -2,8 +2,8 @@ package SortingAlgorithm;
 
 import static SortingAlgorithm.ArrayTool.*;
 
-public class MergeSort2SmallSum {
-    public static int smallSum(int[] arr) {
+public class MergeSort3ReversePairs {
+    public static int reversePairs(int[] arr) {
         // 边界处理
         if (arr == null || arr.length < 2)
             return 0;
@@ -11,7 +11,7 @@ public class MergeSort2SmallSum {
         return process(arr, 0, arr.length - 1);
     }
 
-    public static int process(int[] arr, int left, int right) {
+    private static int process(int[] arr, int left, int right) {
         // 终止条件
         if (left >= right)
             return 0;
@@ -25,13 +25,32 @@ public class MergeSort2SmallSum {
         int i = left, j = mid + 1, k = 0, res = 0;
 
         while (i <= mid && j <= right) {
-            res += arr[i] < arr[j] ? (right - j + 1) * arr[i] : 0;
-            tmp[k++] = arr[i] < arr[j] ? arr[i++] : arr[j++];
+            res += arr[i] > arr[j] ? (mid - i + 1) : 0;
+            tmp[k++] = arr[i] > arr[j] ? arr[j++] : arr[i++];
         }
         while (i <= mid)
             tmp[k++] = arr[i++];
         while (j <= right)
             tmp[k++] = arr[j++];
+
+        for (int l = 0; l < tmp.length; l++) {
+            arr[left + l] = tmp[l];
+        }
+        return res;
+    }
+
+    private static int merge2(int[] arr, int left, int mid, int right) {
+        int[] tmp = new int[right - left + 1];
+        int i = mid, j = right, k = tmp.length - 1, res = 0;
+
+        while (i >= left && j >= mid + 1) {
+            res += arr[i] > arr[j] ? (j - mid) : 0;
+            tmp[k--] = arr[i] > arr[j] ? arr[i--] : arr[j--];
+        }
+        while (i >= left)
+            tmp[k--] = arr[i--];
+        while (j >= mid + 1)
+            tmp[k--] = arr[j--];
 
         for (int l = 0; l < tmp.length; l++) {
             arr[left + l] = tmp[l];
@@ -50,7 +69,7 @@ public class MergeSort2SmallSum {
             int[] arr1 = lenRandomValueRandom(maxLen, maxValue);
             int[] arr2 = copyArray(arr1);
 
-            if (smallSum(arr1) != violence(arr2)) {
+            if (reversePairs(arr1) != violence(arr2)) {
                 System.out.println("-------------打印错误-------------");
                 succeed = false;
                 printArray(arr1);
@@ -69,9 +88,9 @@ public class MergeSort2SmallSum {
             return 0;
 
         int res = 0;
-        for (int i = 1; i < arr.length; i++) {
-            for (int j = 0; j < i; j++) {
-                res += arr[j] < arr[i] ? arr[j] : 0;
+        for (int i = 0; i < arr.length; i++) {  // 遍历数组中所有的数字arr[i]
+            for (int j = i; j < arr.length; j++) {  // 当前数的右边数字arr[j]
+                res += arr[i] > arr[j] ? 1 : 0;
             }
         }
         return res;

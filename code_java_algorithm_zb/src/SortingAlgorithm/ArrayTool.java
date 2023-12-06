@@ -54,15 +54,17 @@ public class ArrayTool {
 
     // 交换行为
     public static void swap(int[] arr, int i, int j) {
-        int tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-    }
-
-    public static void swap2(int[] arr, int i, int j) {
+        if (i == j)  // 快排的两指针碰撞
+            return;  // 若ij是相同索引 与自己异或结果为0
         arr[i] = arr[i] ^ arr[j];  // a=a^b
         arr[j] = arr[i] ^ arr[j];  // b=a^b  b=a^b^b  b=a
         arr[i] = arr[i] ^ arr[j];  // a=a^b  a=a^a^b  a=b
+    }
+
+    public static void swap2(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
     }
 
     // 拷贝数组内容

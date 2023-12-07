@@ -11,7 +11,7 @@ public class QuickSort0NetherlandsFlag {
             return left;
 
         int lessEqual = left - 1;  // 小等区右边界 0 -1
-        int index = left;  // 遍历 1,2,3,4...
+        int index = left;  // 遍历 0,1,2,3,4...
 
         while (index < right) {
             if (arr[index] <= arr[right])  // 以right为基准

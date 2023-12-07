@@ -1,6 +1,6 @@
-package SortingAlgorithm;
+package SortingAlgorithmV1.DivideAndConquer;
 
-import static SortingAlgorithm.ArrayTool.*;
+import static SortingAlgorithmV1.ArrayTool.*;
 
 public class MergeSort2SmallSum {
     public static int smallSum(int[] arr) {

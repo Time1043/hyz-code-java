@@ -1,8 +1,8 @@
-package SortingAlgorithm;
+package SortingAlgorithmV2.ThreeSort;
 
-import static SortingAlgorithm.ArrayTool.printArray;
+import static SortingAlgorithmV2.ArrayComparatorTool.*;
 
-public class ThreeSort {
+public class ThreeSort2ShellSort {
     public static void shellSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;  // 不需要排序
@@ -22,24 +22,16 @@ public class ThreeSort {
                 }
                 arr[j + gap] = base;
             }
-            printArray(arr);
         }
     }
 
     public static void main(String[] args) {
-        // 测试数组
-        int[] testArray = {8, 5, 2, 6, 9, 3, 1, 4, 0, 7};
-
-        // 打印原始数组
-        System.out.println("Original Array:");
-        printArray(testArray);
-
-        // 进行希尔排序
-        shellSort(testArray);
-
-        // 打印排序后的数组
-        System.out.println("Sorted Array:");
-        printArray(testArray);
+        testFramework(
+                ((arr1, arr2) -> {
+                    shellSort(arr1);  // 更优解
+                    violenceSort(arr2);  // 暴力解
+                    return isEqual(arr1, arr2);  // 比较数组内容
+                })
+        );
     }
-
 }

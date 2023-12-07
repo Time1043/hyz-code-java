@@ -1,8 +1,8 @@
-package SortingAlgorithm;
+package SortingAlgorithmV2.DivideAndConquer;
 
 import java.util.Arrays;
 
-import static SortingAlgorithm.ArrayTool.*;
+import static SortingAlgorithmV2.ArrayComparatorTool.*;
 
 public class QuickSort {
     public static void quickSort(int[] arr) {
@@ -38,33 +38,10 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        System.out.println("-------------测试开始-------------");
-        int maxLen = 300;
-        int maxValue = 1000;
-        int testTime = 100000;  // 大样本随机验证
-        boolean succeed = true;
-
-        for (int i = 0; i < testTime; i++) {
-            int[] arr1 = lenRandomValueRandom(maxLen, maxValue);
-            int[] arr2 = copyArray(arr1);
-
-            quickSort(arr1);  // 核心
-            violence(arr2);  // 暴力
-
-            if (!isEqual(arr1, arr2)) {
-                System.out.println("-------------打印错误-------------");
-                succeed = false;
-                printArray(arr1);
-                printArray(arr2);
-                break;  // 只要有一个错误就停止
-            }
-        }
-        System.out.println(succeed ? "正确！" : "错误！");
-        System.out.println("-------------执行完毕-------------");
-    }
-
-    // 暴力
-    public static void violence(int[] arr) {
-        Arrays.sort(arr);
+        testFramework((arr1, arr2) -> {
+            quickSort(arr1);
+            violenceSort(arr2);
+            return isEqual(arr1, arr2);
+        });
     }
 }

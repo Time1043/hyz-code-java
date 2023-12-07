@@ -1,4 +1,4 @@
-package SortingAlgorithm;
+package SortingAlgorithmV1;
 
 public class ArrayTool {
     // 数据：随机生成数组

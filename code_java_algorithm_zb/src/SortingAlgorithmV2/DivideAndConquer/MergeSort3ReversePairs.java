@@ -1,6 +1,6 @@
-package SortingAlgorithm;
+package SortingAlgorithmV2.DivideAndConquer;
 
-import static SortingAlgorithm.ArrayTool.*;
+import static SortingAlgorithmV2.ArrayComparatorTool.*;
 
 public class MergeSort3ReversePairs {
     public static int reversePairs(int[] arr) {
@@ -58,29 +58,6 @@ public class MergeSort3ReversePairs {
         return res;
     }
 
-    public static void main(String[] args) {
-        System.out.println("-------------测试开始-------------");
-        int maxLen = 300;
-        int maxValue = 100;
-        int testTime = 100000;
-        boolean succeed = true;
-
-        for (int i = 0; i < testTime; i++) {
-            int[] arr1 = lenRandomValueRandom(maxLen, maxValue);
-            int[] arr2 = copyArray(arr1);
-
-            if (reversePairs(arr1) != violence(arr2)) {
-                System.out.println("-------------打印错误-------------");
-                succeed = false;
-                printArray(arr1);
-                printArray(arr2);
-                break;
-            }
-        }
-        System.out.println(succeed ? "正确！" : "错误！");
-        System.out.println("-------------执行完毕-------------");
-    }
-
     // 校验：暴力
     public static int violence(int[] arr) {
         // 边界处理
@@ -95,4 +72,10 @@ public class MergeSort3ReversePairs {
         }
         return res;
     }
+
+    public static void main(String[] args) {
+        testFramework((arr1, arr2) -> reversePairs(arr1) == violence(arr2));  // 比较两个返回值是否相同
+    }
+
+
 }

@@ -4,7 +4,7 @@ import static SortingAlgorithmV1.ArrayTool.*;
 
 public class QuickSort0NetherlandsFlag {
     // 划分小等区、大区
-    public static int partition(int[] arr, int left, int right) {
+    public static int partition1(int[] arr, int left, int right) {
         if (left > right)
             return -1;
         if (left == right)
@@ -24,7 +24,7 @@ public class QuickSort0NetherlandsFlag {
     }
 
     // 荷兰国旗问题：划分小区、等区、大区
-    public static int[] netherlandsFlag(int[] arr, int left, int right) {
+    public static int[] partition2(int[] arr, int left, int right) {
         // 特殊处理
         if (left > right)  // 不是有效边界
             return new int[]{-1, -1};
@@ -51,10 +51,14 @@ public class QuickSort0NetherlandsFlag {
         return new int[]{less + 1, more};  // 返回等区左右边界
     }
 
+    public static int[] netherlandsFlag(int[] arr, int left, int right) {
+        return new int[]{-1, -1};
+    }
+
     public static void main(String[] args) {
         int[] arr = lenRandomValueRandom(25, 10);
         printArray(arr);
-        int[] lr = netherlandsFlag(arr, 0, arr.length - 1);
+        int[] lr = partition2(arr, 0, arr.length - 1);
         printArray(arr);
         printArray(lr);
     }

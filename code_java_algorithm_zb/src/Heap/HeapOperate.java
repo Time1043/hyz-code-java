@@ -75,4 +75,89 @@ public class HeapOperate {
             return heapSize == limit;
         }
     }
+
+    public static class MaxHeapViolence {
+        private int[] heap;
+        private int limit;
+        private int heapSize;
+
+        public MaxHeapViolence(int limit) {
+            heap = new int[limit];
+            this.limit = limit;
+            heapSize = 0;
+        }
+
+        public boolean isEmpty() {
+            return heapSize == 0;
+        }
+
+        public boolean isFull() {
+            return heapSize == limit;
+        }
+
+        // O(1)
+        public void push(int value) {
+            if (heapSize == limit)
+                throw new RuntimeException("heap is full");
+            heap[heapSize++] = value;
+        }
+
+        // O(N)
+        public int pop() {
+            int maxIndex = 0;
+            for (int i = 0; i < heapSize; i++) {
+                if (heap[i] > heap[maxIndex])
+                    maxIndex = i;
+            }
+            int ans = heap[maxIndex];
+            heap[maxIndex] = heap[--heapSize];
+            return ans;
+        }
+    }
+
+    // 对数器
+    public static void testFramework() {
+        int value = 1000;
+        int limit = 100;
+        int textTimes = 100000;
+
+        System.out.println("-------------测试开始-------------");
+        for (int i = 0; i < textTimes; i++) {
+            int curLimit = (int) (Math.random() * limit) + 1;
+            MyMaxHeap myMaxHeap = new MyMaxHeap(curLimit);
+            MaxHeapViolence maxHeapViolence = new MaxHeapViolence(curLimit);
+            int curOpTimes = (int) (Math.random() * limit);  // 每一轮随机次操作
+
+            for (int j = 0; j < curOpTimes; j++) {
+                if (myMaxHeap.isEmpty() != maxHeapViolence.isEmpty())
+                    System.out.println("错误：isEmpty");
+                if (myMaxHeap.isFull() != maxHeapViolence.isFull())
+                    System.out.println("错误：isFull");
+
+                if (myMaxHeap.isEmpty()) {  // 空的时候
+                    int curValue = (int) (Math.random() * value);
+                    myMaxHeap.push(curValue);
+                    maxHeapViolence.push(curValue);
+                    // 二者入堆的结果就是不一样的
+                } else if (myMaxHeap.isFull()) {  // 满的时候
+                    if (myMaxHeap.pop() != maxHeapViolence.pop())
+                        System.out.println("错误：pop");
+                } else {  // 不空也不满：0.5概率加数字、0.5概率弹数字
+                    if (Math.random() < 0.5) {
+                        int curValue = (int) (Math.random() * value);
+                        myMaxHeap.push(curValue);
+                        maxHeapViolence.push(curValue);
+                    } else {
+                        if (myMaxHeap.pop() != maxHeapViolence.pop())
+                            System.out.println("错误：pop");
+                    }
+                }
+            }
+        }
+        System.out.println("-------------测试结束-------------");
+    }
+
+    public static void main(String[] args) {
+        testFramework();
+    }
 }
